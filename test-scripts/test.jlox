@@ -1,1 +1,14 @@
-(){},.-+;*.
+// this is a comment
+(( )){} // grouping stuff
+!*+-/=<> <= == // operators
+"This is a string literal!" // String literal
+1
+123
+12.34
+0.1234
+
+or
+orchid
+var
+and
+while

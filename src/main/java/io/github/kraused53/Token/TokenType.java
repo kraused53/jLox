@@ -21,6 +21,8 @@ public enum TokenType {
     EQUAL_EQUAL,
     GREATER,
     GREATER_EQUAL,
+    LESS,
+    LESS_EQUAL,
 
     // Literals
     IDENTIFIER,
@@ -43,5 +45,6 @@ public enum TokenType {
     TRUE,
     VAR,
     WHILE,
+    FOR,
     EOF
 }

@@ -32,6 +32,17 @@ public class Lox {
     }
 
     /*
+     * Report an error from token
+     */
+    static void error( Token token, String message ) {
+        if( token.type == TokenType.EOF ) {
+            report( token.line, " at end", message );
+        }else {
+            report(  token.line, " at '" + token.lexeme + "'", message );
+        }
+    }
+
+    /*
      *   Aggregate error report
      */
     public static void error( int line, String message ) {
@@ -44,10 +55,13 @@ public class Lox {
     private static void run( String script ) throws IOException {
         Scanner scanner = new Scanner( script );
         List<Token> tokens = scanner.scanTokens();
+        Parser parser = new Parser( tokens );
+        Expr expression = parser.parse();
 
-        for( Token token : tokens ) {
-            System.out.println( token );
-        }
+        // Stop if there was a syntax error.
+        if (hadError) return;
+
+        System.out.println( new AstPrinter().print( expression ) );
     }
 
     /*

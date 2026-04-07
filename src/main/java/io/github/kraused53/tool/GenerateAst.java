@@ -32,15 +32,19 @@ public class GenerateAst {
         writer.println("import java.util.List;");
         writer.println();
         writer.println("abstract class " + baseName + " {");
-        writer.println();
+
+        defineVisitor( writer, baseName, types );
 
         for( String type : types ) {
+            writer.println();
             String className = type.split(":")[0].trim();
             String    fields = type.split(":")[1].trim();
 
             defineType( writer, baseName, className, fields );
-            writer.println();
         }
+
+        writer.println();
+        writer.println("\tabstract <R> R accept(Visitor<R> visitor);");
 
         writer.println("}");
         writer.println();
@@ -48,25 +52,52 @@ public class GenerateAst {
     }
 
     private static void defineType( PrintWriter writer, String baseName, String className, String fieldList ) {
-        String tabSpace = "\t";
-        writer.println( tabSpace.repeat( 1 ) + "static class " + className + " extends " + baseName + " {" );
-        writer.println();
-        writer.println( tabSpace.repeat( 2 ) + className + "( " + fieldList + " ) {"  );
+
+        writer.println( "\tstatic class " + className + " extends " + baseName + " {" );
+        writer.println( "\t\t" + className + "( " + fieldList + " ) {"  );
 
         String[] fields = fieldList.split(", ");
         for ( String field : fields ) {
             String name = field.split(" ")[1];
-            writer.println( tabSpace.repeat( 3 ) + "this." + name + " = " + name + ";" );
+            writer.println( "\t\t\tthis." + name + " = " + name + ";" );
         }
 
-        writer.println( tabSpace.repeat( 2 ) + "}" );
+        writer.println( "\t\t}" );
+
+        // Visitor pattern.
+        writer.println();
+        writer.println( "\t\t@Override" );
+        writer.println( "\t\t<R> R accept(Visitor<R> visitor) {" );
+        writer.println( "\t\t\treturn visitor.visit" + className + baseName + "(this);" );
+        writer.println( "\t\t}" );
 
         // Fields.
         writer.println();
         for (String field : fields) {
-            writer.println( tabSpace.repeat( 2 ) + "final " + field + ";");
+            writer.println( "\t\tfinal " + field + ";");
         }
 
-        writer.println( tabSpace.repeat( 1 ) + "}");
+        writer.println( "\t}");
+    }
+
+    private static void defineVisitor( PrintWriter writer, String baseName, List<String> types ) {
+
+        writer.println( "\tinterface Visitor<R> {" );
+
+        for ( String type : types ) {
+            String typeName = type.split(":")[0].trim();
+            writer.println(
+                    "\t\tR visit" +
+                    typeName +
+                    baseName +
+                    "( " +
+                    typeName +
+                    " " +
+                    baseName.toLowerCase() +
+                    " );"
+                    );
+        }
+
+        writer.println( "\t}" );
     }
 }

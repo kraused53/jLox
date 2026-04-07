@@ -1,7 +1,4 @@
-package io.github.kraused53;
-
-import io.github.kraused53.Token.Token;
-import io.github.kraused53.Scanner.Scanner;
+package io.github.kraused53.lox;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class jLox {
+public class Lox {
     // Track if there has been an error
     static Boolean hadError = false;
 
@@ -42,7 +39,7 @@ public class jLox {
     }
 
     /*
-    *   Run given String of jLox commands
+    *   Run given String of Lox commands
     */
     private static void run( String script ) throws IOException {
         Scanner scanner = new Scanner( script );
@@ -54,7 +51,7 @@ public class jLox {
     }
 
     /*
-    *   Attempt to load a jLox script
+    *   Attempt to load a Lox script
     *   If successful, pass byte array as string to run()...
     */
     private static void runFile( String filepath ) throws IOException {

@@ -1,4 +1,4 @@
-package io.github.kraused53.Token;
+package io.github.kraused53.lox;
 
 public enum TokenType {
     // Single character tokens.

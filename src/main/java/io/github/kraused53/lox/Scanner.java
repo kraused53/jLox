@@ -1,13 +1,9 @@
-package io.github.kraused53.Scanner;
+package io.github.kraused53.lox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
-import io.github.kraused53.Token.Token;
-import io.github.kraused53.Token.TokenType;
-import io.github.kraused53.jLox;
 
 public class Scanner {
     private final String source;
@@ -146,7 +142,7 @@ public class Scanner {
         }
 
         if( isAtEnd() ) {
-            jLox.error( line, "Unterminated string..." );
+            Lox.error( line, "Unterminated string..." );
             return;
         }
 
@@ -216,7 +212,7 @@ public class Scanner {
                 }else if( isAlpha( c ) ) {
                     identifier();
                 }else {
-                    jLox.error( line, "Unexpected character." );
+                    Lox.error( line, "Unexpected character." );
                 }
                 break;
         }

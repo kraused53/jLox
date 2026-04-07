@@ -1,4 +1,4 @@
-package io.github.kraused53.Token;
+package io.github.kraused53.lox;
 
 public class Token {
     final TokenType type;
